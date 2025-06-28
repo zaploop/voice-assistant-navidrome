@@ -1,0 +1,192 @@
+"""
+Configurazione di esempio per il sistema voice assistant
+"""
+
+# Configurazione Audio Input
+audio:
+  sample_rate: 16000
+  channels: 1
+  chunk_size: 1024
+  device_index: null  # auto-detect migliore dispositivo
+  
+  # Preprocessing audio
+  preprocessing:
+    noise_reduction: true
+    vad_threshold: 0.01
+    normalization: true
+    high_pass_cutoff: 80.0
+
+# Configurazione Wake Word Detection
+wake_word:
+  wake_words:
+    - name: "hey_music"
+      model_path: "models/hey_music.tflite"
+      threshold: 0.5
+    - name: "ok_navidrome"
+      model_path: "models/ok_navidrome.tflite"
+      threshold: 0.6
+  
+  default_threshold: 0.5
+  timeout_seconds: 10
+  enable_speex: false  # Soppressione rumore Speex (solo Linux)
+  vad_threshold: 0.3
+
+# Configurazione Speech Recognition
+speech_recognition:
+  primary_engine: "vosk"
+  fallback_engine: "whisper"
+  auto_switch_threshold: 0.7
+  max_audio_length: 30.0
+  sample_rate: 16000
+  
+  # Configurazione Vosk
+  vosk:
+    model_path: "models/vosk-model-it-0.22"
+    max_alternatives: 3
+  
+  # Configurazione Whisper
+  whisper:
+    model_size: "medium"  # tiny, base, small, medium, large
+    language: "it"
+    temperature: 0.0
+
+# Configurazione Natural Language Processing
+nlp:
+  confidence_threshold: 0.7
+  context_window: 5
+  
+  # Entità personalizzate
+  custom_entities:
+    artists_file: "data/artists.txt"
+    genres_file: "data/genres.txt"
+    playlists_file: "data/playlists.txt"
+
+# Configurazione Navidrome
+navidrome:
+  base_url: "http://localhost:4533"
+  username: "${NAVIDROME_USER}"
+  password: "${NAVIDROME_PASS}"
+  timeout_seconds: 30
+  retry_attempts: 3
+  cache_ttl: 300  # secondi
+
+# Configurazione Audio Feedback
+feedback:
+  tts_engine: "espeak"
+  voice: "it"
+  speed: 150
+  volume: 0.8
+  
+  # Template risposte
+  responses:
+    command_confirmed: "Comando eseguito"
+    command_failed: "Comando non riuscito"
+    not_understood: "Non ho capito, puoi ripetere?"
+    playing_track: "Riproducendo {track} di {artist}"
+    volume_changed: "Volume impostato al {volume}%"
+    paused: "Musica in pausa"
+    resumed: "Riproduzione ripresa"
+    stopped: "Riproduzione fermata"
+    next_track: "Prossimo brano"
+    previous_track: "Brano precedente"
+
+# Configurazione Redis (Message Broker)
+redis:
+  host: "localhost"
+  port: 6379
+  db: 0
+  password: null
+  
+  # Configurazione code
+  queues:
+    audio_stream: "audio:stream"
+    wake_word_events: "wake_word:events"
+    speech_results: "speech:results"
+    nlp_commands: "nlp:commands"
+    navidrome_requests: "navidrome:requests"
+
+# Configurazione Database locale
+database:
+  path: "data/voice_assistant.db"
+  
+  # Configurazione cache
+  cache:
+    metadata_ttl: 3600  # 1 ora
+    search_results_ttl: 1800  # 30 minuti
+    user_preferences_ttl: 86400  # 24 ore
+
+# Configurazione Logging
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  
+  # File di log
+  files:
+    main: "logs/voice_assistant.log"
+    audio: "logs/audio.log"
+    recognition: "logs/recognition.log"
+    navidrome: "logs/navidrome.log"
+  
+  # Rotazione log
+  rotation:
+    max_size: "10MB"
+    backup_count: 5
+
+# Configurazione Monitoring
+monitoring:
+  prometheus:
+    enabled: true
+    port: 8000
+    metrics_path: "/metrics"
+  
+  # Health check
+  health_check:
+    enabled: true
+    port: 8001
+    path: "/health"
+    
+  # Metriche personalizzate
+  metrics:
+    audio_quality: true
+    recognition_accuracy: true
+    response_time: true
+    error_rate: true
+
+# Configurazione Sicurezza
+security:
+  # Rate limiting
+  rate_limiting:
+    enabled: true
+    max_requests_per_minute: 60
+    
+  # Input validation
+  input_validation:
+    max_text_length: 500
+    allowed_characters: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 àèéìíîòóùú.,!?'-"
+    
+  # Privacy
+  privacy:
+    store_audio: false
+    anonymize_logs: true
+    data_retention_days: 30
+
+# Configurazione Deployment
+deployment:
+  mode: "standalone"  # standalone, distributed
+  
+  # Configurazione container
+  container:
+    restart_policy: "unless-stopped"
+    memory_limit: "2g"
+    cpu_limit: "2"
+    
+  # Configurazione cluster (per deployment distribuito)
+  cluster:
+    nodes:
+      - host: "localhost"
+        role: "all"
+      # - host: "192.168.1.100"
+      #   role: "processing"
+      # - host: "192.168.1.101"
+      #   role: "audio"
+

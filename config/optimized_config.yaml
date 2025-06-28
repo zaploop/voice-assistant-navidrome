@@ -1,0 +1,77 @@
+audio:
+  buffer_size: 1024
+  channels: 1
+  noise_reduction: true
+  sample_rate: 16000
+  vad_threshold: 0.3
+navidrome:
+  batch_operations:
+    batch_search_requests: true
+    batch_size: 5
+    batch_timeout: 0.1
+  connection_pooling:
+    keepalive_expiry: 30
+    max_connections: 10
+    max_keepalive_connections: 5
+  request_caching:
+    cache_metadata: true
+    cache_search_results: true
+    cache_ttl: 900
+    max_cache_size: 500
+  retry_strategy:
+    backoff_factor: 1.5
+    max_retries: 3
+    retry_on_timeout: true
+nlp:
+  command_patterns:
+    precompile_patterns: true
+    priority_ordering: true
+    use_regex_cache: true
+  context_awareness:
+    context_timeout: 300
+    remember_last_artist: true
+    remember_last_genre: true
+  entity_caching:
+    cache_albums: true
+    cache_artists: true
+    cache_playlists: true
+    cache_refresh_interval: 1800
+    preload_popular: true
+  fuzzy_matching:
+    max_suggestions: 3
+    similarity_threshold: 0.6
+    use_phonetic: true
+speech_recognition:
+  caching:
+    cache_size: 1000
+    cache_ttl: 3600
+    enable_cache: true
+  confidence_threshold: 0.7
+  fallback_engine: whisper
+  fallback_timeout: 2.0
+  preprocessing:
+    enhance_speech: true
+    normalize_audio: true
+    remove_silence: true
+  primary_engine: vosk
+  vosk_model: vosk-model-it-0.22
+  whisper_model: medium
+system:
+  cpu_optimization:
+    async_io: true
+    cpu_affinity: true
+    use_multiprocessing: true
+    worker_processes: 2
+  disk_io:
+    async_file_operations: true
+    compress_cache: true
+    use_ssd_cache: true
+  memory_management:
+    audio_buffer_limit: 10
+    cache_memory_limit: 50
+    gc_frequency: 100
+    use_memory_mapping: true
+  network_optimization:
+    compression: true
+    socket_keepalive: true
+    tcp_nodelay: true

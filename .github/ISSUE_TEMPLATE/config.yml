@@ -1,0 +1,12 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 GitHub Discussions
+    url: https://github.com/voice-assistant/navidrome-voice/discussions
+    about: Fai domande e discuti con la community
+  - name: 📖 Documentazione
+    url: https://voice-assistant.github.io/navidrome-voice/
+    about: Consulta la documentazione completa
+  - name: 🆘 Supporto Community
+    url: https://discord.gg/voice-assistant
+    about: Ottieni aiuto dalla community su Discord
+
